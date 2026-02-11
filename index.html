@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> click for a surprise </title>
+    <title>For Soad ❤️</title>
     <style>
         body { 
             display: flex; 
@@ -16,26 +16,24 @@
             background-color: #ffe4e1; 
             overflow: hidden; 
         }
-        .container { text-align: center; padding: 20px; }
+        .container { text-align: center; padding: 20px; width: 100%; box-sizing: border-box; }
         
         .couple-img { 
-            width: 300px; 
-            max-width: 80%;
+            width: 180px; /* Reduced size as requested */
             height: auto; 
             border-radius: 20px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        h1 { color: #d02090; font-size: 1.8rem; margin-bottom: 30px; line-height: 1.4; }
+        h1 { color: #d02090; font-size: 1.6rem; margin-bottom: 30px; }
         
         .buttons { 
             position: relative; 
             display: flex; 
             justify-content: center; 
             gap: 20px;
-            width: 100%;
-            height: 60px; 
+            height: 150px; /* Space for the button to jump around */
         }
 
         button { 
@@ -45,29 +43,28 @@
             cursor: pointer; 
             border-radius: 15px; 
             border: none; 
-            transition: 0.2s;
+            transition: 0.1s;
+            height: 55px;
         }
 
-        /* The Shaking/Glowing Yes Button */
         #yesBtn { 
             background-color: #ff69b4; 
             color: white; 
-            animation: pulse 1.5s infinite; /* Adds the pulse effect */
-            box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.7);
-        }
-
-        /* Animation Logic */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(255, 105, 180, 0.5); }
-            100% { transform: scale(1); }
+            animation: pulse 1.5s infinite; 
+            z-index: 1;
         }
 
         #noBtn { 
             background-color: #ffffff; 
             color: #ff69b4; 
-            position: relative; 
-            z-index: 10;
+            position: absolute; /* Changed to absolute for better jumping */
+            z-index: 100;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
@@ -75,17 +72,45 @@
 
     <div id="main-content" class="container">
         <img src="1000033188.png" class="couple-img" alt="Us">
-        
-        <h1>Hey Soad, Will you be my Valentine? ❤️</h1>
+        <h1 id="question">Hey Soad, Will you be my Valentine? ❤️</h1>
         
         <div class="buttons">
-            <button id="yesBtn" onclick="celebrate()">Yes</button>
-            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
         </div>
     </div>
 
     <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainContent = document.getElementById('main-content');
+
+        // Function to move the "No" button
         function moveButton() {
-            const noBtn = document.getElementById('noBtn');
+            // Subtract button width/height so it stays on screen
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight -
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.position = 'fixed'; // Use fixed to ensure it jumps anywhere on screen
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        // Event listeners for mobile (touchstart) and desktop (mouseover)
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents the actual click
+            moveButton();
+        });
+
+        // The "Yes" Click Logic
+        yesBtn.addEventListener('click', () => {
+            mainContent.innerHTML = `
+                <img src="1000033188.png" class="couple-img">
+                <h1>Yay! I knew you'd say yes! 🥰<br>See you on the 14th!</h1>
+                <div style="font-size: 3rem;">❤️🌸✨</div>
+            `;
+        });
+    </script>
+</body>
+</html>
